@@ -1,13 +1,23 @@
-name: Example workshop
+name: Layer link
 
-# Accepts 'flutter' or 'dart'
 type: flutter
 
-# Configuration for each step 
 steps:
-  - name: Step 1
+  - name: Step 1 - Application from scratch
     directory: step_01
     has_solution: true
-  - name: Step 2
+  - name: Step 2 - Tricky SignUp form
     directory: step_02
+    has_solution: true
+  - name: Step 3 - Placeholder for our Prompter
+    directory: step_03
+    has_solution: true
+  - name: Step 4 - Widgets wrapping with Prompter
+    directory: step_04
+    has_solution: true
+  - name: Step 5 - Prompter layout
+    directory: step_05
     has_solution: false
+  - name: Step 6 - Overlay and tracking logic
+    directory: step_06
+    has_solution: true

@@ -1,27 +1,12 @@
-# Step 1
+# Step 1 - Application from scratch
 
-<iframe
-  width="560"
-  height="315"
-  src="https://www.youtube.com/embed/zSbsIiluixw"
-  title="YouTube video player"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowfullscreen>
-</iframe>
+Let's imagine you need to attach an overlay to a particular widget.
+The problem of drawing overlay entries at a specific coordinate doesn't look too hard. But it does. A particular layout can handle scrolling, transformation, repositioning, and other layout mutation.
 
-Flutter Codelab
+In other words, you should get an overlay entry following the widget, and link two layers.
 
-```dart
-// Put this code in the build() method
-children: [
-  // Use this code
-  Text(
-    'You have pushed the button this many times:',
-  ),
-  Text(
-    '$_counter',
-    style: Theme.of(context).textTheme.headline4,
-  ),
-],
-```
+And here, two widgets in Flutter come to our aid. They are helping to connect the main view with overlay: [CompositedTransformTarget](https://api.flutter.dev/flutter/widgets/CompositedTransformTarget-class.html) and [CompositedTransformFollower](https://api.flutter.dev/flutter/widgets/CompositedTransformFollower-class.html).
+
+In this article, I will demonstrate their use by creating a widget wrapper to help self-test your code and automate some actions when the application runs in debug mode.
+
+First of all, we should create a new starter application.

@@ -1,3 +1,4 @@
-# Step 3
+# Step 2 - Tricky SignUp form
 
-Here's how to use NetworkImage to display an image.
+After that, let's add our input form.
+Also, let's complicate the layout with the help of transformations.

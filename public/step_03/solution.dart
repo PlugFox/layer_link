@@ -1,24 +1,44 @@
-import 'dart:math' as math; // +
+import 'dart:async';
+import 'dart:developer' as dev;
+import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // +
+import 'package:flutter/services.dart';
+import 'package:meta/meta.dart';
 
-/*
+/// Entry point
+void main() => runZonedGuarded<void>(
+      () => runApp(const App()),
+      (error, stackTrace) => dev.log(
+        'A error has occurred',
+        stackTrace: stackTrace,
+        error: error,
+        name: 'main',
+        level: 1000,
+      ),
+    );
 
-  ...
+/// {@template app}
+/// App widget
+/// {@endtemplate}
+class App extends StatelessWidget {
+  /// {@macro app}
+  const App({super.key});
 
-  home: Scaffold(
-    appBar: AppBar(
-      title: const Text('Promter'),
-    ),
-    body: const SafeArea(
-      child: SignUpForm(), // <== replace placeholder with new form
-    ),
-  ),
-
-  ...
-
-*/
+  @override
+  Widget build(BuildContext context) => MaterialApp(
+        title: 'Promter',
+        home: Scaffold(
+          appBar: AppBar(
+            title: const Text('Promter'),
+          ),
+          body: const SafeArea(
+            child: SignUpForm(),
+          ),
+        ),
+      );
+} // App
 
 /// {@template sign_up_form}
 /// SignUpForm widget
@@ -136,3 +156,69 @@ class _SignUpFormState extends State<SignUpForm> {
         ],
       );
 } // _SignUpFormState
+
+/// {@template promter}
+/// Prompter widget
+/// {@endtemplate}
+class Prompter extends StatefulWidget {
+  /// {@macro promter}
+  const Prompter({
+    required this.child,
+    required this.actions,
+    super.key,
+  });
+
+  final Widget child;
+  final Map<String, VoidCallback> actions;
+
+  @override
+  State<Prompter> createState() => _PrompterState();
+} // Prompter
+
+class _PrompterState = State<Prompter>
+    with _PrompterApiMixin, _PrompterBuilderMixin, _PrompterOverlayMixin;
+
+mixin _PrompterApiMixin on State<Prompter> {
+  @mustCallSuper
+  @visibleForTesting
+  @visibleForOverriding
+  void show() {}
+
+  @mustCallSuper
+  @visibleForTesting
+  @visibleForOverriding
+  void hide() {}
+}
+
+mixin _PrompterBuilderMixin on _PrompterApiMixin {
+  @override
+  Widget build(BuildContext context) {
+    if (!kDebugMode) return widget.child;
+    return Stack(
+      alignment: Alignment.bottomRight,
+      fit: StackFit.loose,
+      children: <Widget>[
+        widget.child,
+        Positioned(
+          right: 2,
+          bottom: 2,
+          child: IconButton(
+            icon: const Icon(Icons.arrow_drop_down_outlined),
+            splashRadius: 12,
+            alignment: Alignment.center,
+            iconSize: 16,
+            padding: EdgeInsets.zero,
+            constraints: BoxConstraints.tight(
+              const Size.square(16),
+            ),
+            onPressed: widget.actions.isEmpty ? null : show,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+mixin _PrompterOverlayMixin on _PrompterApiMixin {
+  // TODO: unimplemented
+}
