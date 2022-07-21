@@ -4,7 +4,6 @@ class _PromterLayout extends StatelessWidget {
   const _PromterLayout({
     required this.actions,
     required this.hide,
-    super.key,
   });
 
   final Map<String, VoidCallback> actions;
